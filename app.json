@@ -1,0 +1,12 @@
+{
+  "name": "Lionshare API",
+  "description": "API for https://fiducry.com",
+  "repository": "https://github.com/lionsharecapital/fiducry-api",
+  "logo": "https://avatars1.githubusercontent.com/u/25111982",
+  "website": "https://fiducry.com",
+  "addons": [
+    {
+      "plan": "heroku-redis"
+    }
+  ]
+}
