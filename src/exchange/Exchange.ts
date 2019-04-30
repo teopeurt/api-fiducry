@@ -1,4 +1,4 @@
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 import Gdax from "./Gdax";
 import Polonx from "./Polonx";
 import CoinmarketCap from "./CoinmarketCap";
@@ -8,6 +8,11 @@ import { VALID_PERIODS } from "../utils/period";
 import redis from "../db/redis";
 
 class Exchange extends EventEmitter {
+  private gdax: Gdax;
+  private prices: {};
+  private coinmarketcap: CoinmarketCap;
+  private poloniex: Polonx;
+
   constructor() {
     super();
     this.gdax = new Gdax();
@@ -19,7 +24,10 @@ class Exchange extends EventEmitter {
   connect = () => {
     this.poloniex.connect();
     this.poloniex.on("message", data => {
+
       const currency = data.cryptoCurrency;
+      console.log("prices ->>> " + JSON.stringify(this.prices))
+      console.log("currnecy -->>> " + currency)
       if (!cryptoCurrencyMap[currency].hasNativeCurrency) {
         data.price = this.convert(data.price, currency, this.prices);
       }
@@ -135,6 +143,7 @@ class Exchange extends EventEmitter {
   convert = (amount, currency, prices) => {
     const intCurrency = cryptoCurrencyMap[currency].intermediateCurrency;
     // Use the last rate
+    console.log(prices)
     const intRate = prices[intCurrency].slice(-1)[0];
     return intRate * amount;
   };

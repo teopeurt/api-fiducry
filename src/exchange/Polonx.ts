@@ -1,4 +1,4 @@
-import autobahn from "autobahn";
+// import autobahn from "autobahn";
 import EventEmitter from "events";
 import Poloniex from "poloniex-api-node";
 
@@ -35,9 +35,13 @@ const CRYPTO_CURRENCY_PAIRS = [
 ];
 
 const BASE_URL = "https://poloniex.com/public";
-const WS_URL = "wss://api.poloniex.com"; //deprecated
+// const WS_URL = "wss://api.poloniex.com"; //deprecated
+
 
 class Polonx extends EventEmitter {
+  private apiClient: ApiClient;
+  private poloniex: any;
+
   constructor() {
     super();
     this.apiClient = new ApiClient({ baseUrl: BASE_URL });
@@ -58,6 +62,7 @@ class Polonx extends EventEmitter {
 
     this.poloniex.on("message", (channelName, data, seq) => {
       if (channelName === "ticker") {
+        console.log("ticker +---+ " + JSON.stringify(data));
         // if (CRYPTO_CURRENCY_PAIRS.indexOf(data.currencyPair) > -1) {
         const cryptoCurrency = data.currencyPair.split("_")[1];
         const price = parseFloat(data.last);
@@ -113,8 +118,8 @@ class Polonx extends EventEmitter {
 
     let { start, end, granularity } = convertPeriod(period, "poloniex");
 
-    start = start.getTime() / 1000;
-    end = end.getTime() / 1000;
+    let starter = start.getTime() / 1000;
+    let ender = end.getTime() / 1000;
 
     for (let pair of CRYPTO_CURRENCY_PAIRS) {
       const cryptoCurrency = pair.split("_")[1];
@@ -123,8 +128,8 @@ class Polonx extends EventEmitter {
       const data = await this.apiClient.get("", {
         command: "returnChartData",
         currencyPair: pair,
-        start,
-        end,
+        starter,
+        ender,
         period: granularity
       });
       for (let rate of data) {

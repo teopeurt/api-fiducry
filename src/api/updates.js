@@ -23,9 +23,7 @@ router.get("/", async ctx => {
     if (githubCache) {
       data = JSON.parse(githubCache);
     } else {
-      const res = await fetch(
-        "#"
-      );
+      const res = await fetch("#");
       data = await res.json();
       await redis.setAsync(UPDATE_CACHE_KEY, JSON.stringify(data));
       await redis.expireAsync(UPDATE_CACHE_KEY, 60);

@@ -1,5 +1,5 @@
 import WebSocket from "websocket";
-import ReconnectingWebsocket from "reconnecting-websocket";
+import ReconnectingWebsocket from "reconnecting-websocket/dist/index";
 import EventEmitter from "events";
 
 import ApiClient from "./ApiClient";
@@ -86,9 +86,7 @@ class Gdax extends EventEmitter {
         const prices = JSON.parse(await redis.getAsync(key));
         rates[cryptoCurrency] = prices[cryptoCurrency];
         console.log(
-          `[GDAX - ${cryptoCurrency}] Expected ${expected}, got ${
-            cryptoRates.length
-          }`
+          `[GDAX - ${cryptoCurrency}] Expected ${expected}, got ${cryptoRates.length}`
         );
       }
 
