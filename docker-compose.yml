@@ -6,8 +6,11 @@ services:
 
   # our strongloop service shall be known as 'api'
   api:
-    # use your user name
-    image: teopeurt/lionshareapi-dev
+    # Approach-1 build image beforehand
+    # image: teopeurt/lionshareapi-dev
+
+    # Approach-2 build on-demand
+    build: ./docker
 
     # map the containers port of 3000 to our local 3002
     ports:
@@ -17,8 +20,8 @@ services:
     volumes:
       - .:/usr/src/api
 
-#    networks:
-#      - redis-net
+    networks:
+      - redis-net
 
     depends_on:
       - redis
@@ -51,6 +54,8 @@ services:
       image: redis:latest
       command: ["redis-server", "--appendonly", "yes"]
       hostname: redis
+      ports:
+        - 6379:6379
       networks:
         - redis-net
       volumes:
