@@ -80,6 +80,15 @@ yarn dev
 ```
 
 
+## TODO
+
+Convert apiclient to axios
+convert rest to typescript
+
+"debug redis" : // var client = redis.createClient("6379", process.env.REDIS_URL);
+
+
+
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/lionsharecapital/fiducry-api)
 
 ## License

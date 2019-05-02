@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.ts",
     "devmon": "nodemon",
-    "dev": "cross-env NODE_ENV=development DEBUG=1 ./node_modules/.bin/nodemon --watch server src/index.ts",
+    "dev": "cross-env NODE_ENV=development DEBUG=1 DEBUG=koa-mount ./node_modules/.bin/nodemon --watch server src/index.ts",
     "deploy": "now -e REDIS_URL=@redis_url && now alias",
     "precommit": "lint-staged",
     "build": "tsc -p . --pretty"
@@ -40,13 +40,13 @@
     "dotenv": "2.0.0",
     "http-errors": "1.5.1",
     "isomorphic-fetch": "2.2.1",
-    "koa": "2.0.0",
+    "koa": "2.7.0",
     "koa-bodyparser": "2.3.0",
     "koa-compress": "1.0.9",
     "koa-convert": "1.2.0",
     "koa-helmet": "2.0.0",
     "koa-logger": "1.3.0",
-    "koa-mount": "2.0.0",
+    "koa-mount": "4.0.0",
     "koa-ratelimit": "^4.0.0",
     "koa-router": "7.0.1",
     "lodash": "^4.17.4",
@@ -59,7 +59,7 @@
     "safestart": "1.1.0",
     "semver": "^5.3.0",
     "socks-proxy-agent": "^4.0.1",
-    "uws": "^10.148.1",
+    "uws": "10.148.1",
     "websocket": "^1.0.24"
   },
   "devDependencies": {

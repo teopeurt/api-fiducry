@@ -1,5 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+export interface CryptoType {
+  exchange: string,
+  hasNativeCurrency: boolean,
+  pair: string,
+  intermediateCurrency: any
+}
+
+
 const cryptoCurrencyMap = {
   BTC: {
     exchange: "poloniex",
@@ -158,5 +164,5 @@ const cryptoCurrencyMap = {
     intermediateCurrency: "BTC"
   }
 };
-exports.cryptoCurrencyMap = cryptoCurrencyMap;
-//# sourceMappingURL=prices.js.map
+
+export { cryptoCurrencyMap };

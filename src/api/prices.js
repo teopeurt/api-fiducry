@@ -15,6 +15,7 @@ router.get("/", async ctx => {
     const redisData = await redis.getAsync(key);
     let prices = JSON.parse(redisData);
 
+    // empty cache is only called on first request!!!
     if (!prices) {
       prices = await exchange.getPrices(period);
       await redis.setAsync(key, JSON.stringify(prices));

@@ -11,7 +11,8 @@ bluebird.promisifyAll(redis.Multi.prototype);
 // );
 
 // APPROACH 2: Using host entries created by Docker in /etc/hosts (RECOMMENDED)
-var client = redis.createClient("6379", "redis");
+var client = redis.createClient("6379", process.env.REDIS_URL || "redis");
+
 
 client.on("connect", () => {
   console.log("Redis connected");

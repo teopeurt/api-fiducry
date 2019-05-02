@@ -37,8 +37,10 @@ class ApiClient {
           const json = response.json();
           statusCode = response.status;
           statusText = response.statusText;
-          console.log("response " + JSON.stringify(response));
+
+          console.log("response " + JSON.stringify(response.url));
           // Handle successful responses
+
           if (response.status >= 200 && response.status < 300) {
             return json;
           }

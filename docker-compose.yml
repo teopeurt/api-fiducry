@@ -14,7 +14,7 @@ services:
 
     # map the containers port of 3000 to our local 3002
     ports:
-      - 3002:3000
+      - 3005:3005
 
     # mount our current directory (code) to the container's /usr/src/api
     volumes:

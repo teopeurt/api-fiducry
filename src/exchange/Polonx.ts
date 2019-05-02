@@ -37,7 +37,6 @@ const CRYPTO_CURRENCY_PAIRS = [
 const BASE_URL = "https://poloniex.com/public";
 // const WS_URL = "wss://api.poloniex.com"; //deprecated
 
-
 class Polonx extends EventEmitter {
   private apiClient: ApiClient;
   private poloniex: any;
@@ -48,26 +47,15 @@ class Polonx extends EventEmitter {
 
     this.poloniex = new Poloniex();
 
-    // autobahn handles retries
-    // this.websocket = new autobahn.Connection({
-    //   url: WS_URL,
-    //   realm: "realm1",
-    //   max_retries: -1
-    // });
   }
 
   connect = () => {
     this.poloniex.subscribe("ticker");
-    //this.poloniex.subscribe('BTC_ETC');
 
     this.poloniex.on("message", (channelName, data, seq) => {
       if (channelName === "ticker") {
-        console.log("ticker +---+ " + JSON.stringify(data));
-        // if (CRYPTO_CURRENCY_PAIRS.indexOf(data.currencyPair) > -1) {
         const cryptoCurrency = data.currencyPair.split("_")[1];
         const price = parseFloat(data.last);
-        console.log(" crypto " + cryptoCurrency);
-        console.log(" price " + price);
         this.emit("message", {
           cryptoCurrency,
           price
@@ -97,20 +85,6 @@ class Polonx extends EventEmitter {
 
     this.poloniex.openWebSocket({ version: 2 });
 
-    // this.websocket.onopen = connection => {
-    //   connection.subscribe("ticker", data => {
-    //     if (CRYPTO_CURRENCY_PAIRS.indexOf(data[0]) > -1) {
-    //       const cryptoCurrency = data[0].split("_")[1];
-    //       const price = parseFloat(data[1]);
-    //       this.emit("message", {
-    //         cryptoCurrency,
-    //         price
-    //       });
-    //     }
-    //   });
-    // };
-    //
-    // this.websocket.open();
   };
 
   getPrices = async period => {
@@ -118,8 +92,8 @@ class Polonx extends EventEmitter {
 
     let { start, end, granularity } = convertPeriod(period, "poloniex");
 
-    let starter = start.getTime() / 1000;
-    let ender = end.getTime() / 1000;
+      let startEpoch = start.valueOf();
+      let endEpoch = end.valueOf();
 
     for (let pair of CRYPTO_CURRENCY_PAIRS) {
       const cryptoCurrency = pair.split("_")[1];
@@ -128,10 +102,11 @@ class Polonx extends EventEmitter {
       const data = await this.apiClient.get("", {
         command: "returnChartData",
         currencyPair: pair,
-        starter,
-        ender,
+        start: startEpoch,
+        end: endEpoch,
         period: granularity
       });
+
       for (let rate of data) {
         cryptoRates.push(parseFloat(rate["close"]));
       }

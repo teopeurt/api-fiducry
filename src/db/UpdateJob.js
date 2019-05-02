@@ -11,6 +11,7 @@ class UpdateJob {
   }
 
   start = () => {
+
     this.interval = setInterval(async () => {
       try {
         await this.exchange.updateAllCache(this.period);
